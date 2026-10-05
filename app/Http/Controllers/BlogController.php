@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BlogRequest;
+use App\Http\Requests\StoreBlogRequest;
 use App\Models\Blog;
 use Illuminate\Http\Request;
 
@@ -18,21 +20,11 @@ class BlogController extends Controller
         return view('blogs.create');
     }
 
-    public function store(Request $request)
+    public function store(BlogRequest $request)
     {
-        $request->validate([
-            'title' => 'required',
-            'content' => 'required',
-        ]);
-
-        Blog::create([
-            'title' => $request->title,
-            'content' => $request->content,
-        ]);
-
+        Blog::create(['title' => $request->title, 'content' => $request->content,]);
         return redirect()->route('blogs.index')->with('success', 'Blog added successfully!');
     }
-
     public function show(Blog $blog)
     {
         return view('blogs.show', compact('blog'));
@@ -43,18 +35,10 @@ class BlogController extends Controller
         return view('blogs.edit', compact('blog'));
     }
 
-    public function update(Request $request, Blog $blog)
+
+    public function update(BlogRequest $request, Blog $blog)
     {
-        $request->validate([
-            'title' => 'required',
-            'content' => 'required',
-        ]);
-
-        $blog->update([
-            'title' => $request->title,
-            'content' => $request->content,
-        ]);
-
+        $blog->update(['title' => $request->title, 'content' => $request->content,]);
         return redirect()->route('blogs.index')->with('success', 'Blog updated successfully!');
     }
 
