@@ -73,4 +73,27 @@ class BlogController extends Controller
 
         return view('blogs.index', compact('blogs'));
     }
+
+
+
+    public function trash()
+    {
+        $blogs = Blog::onlyTrashed()->latest('deleted_at')->get();
+
+        return view('blogs.trash', compact('blogs'));
+    }
+
+    public function restore(Blog $blog)
+    {
+        $blog->restore();
+
+        return back()->with('success', 'Blog restored.');
+    }
+
+    public function forceDelete(Blog $blog)
+    {
+        $blog->forceDelete();
+
+        return back()->with('success', 'Blog permanently deleted.');
+    }
 }

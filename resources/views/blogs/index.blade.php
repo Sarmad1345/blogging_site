@@ -21,6 +21,8 @@
         <button type="submit" id="searchButton">Search</button>
     </form>
 
+    <a href="{{ route('blogs.trash') }}">Trash</a>
+
     <p>
         <a href="{{ route('blogs.create') }}" class="btn btn-primary">+ Add New Blog</a>
     </p>
