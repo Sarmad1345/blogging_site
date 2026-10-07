@@ -8,18 +8,15 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('blogs', function (Blueprint $table) {
+        Schema::create('images', function (Blueprint $table) {
             $table->id();
-            $table->string('email')->unique();
-            $table->string('title');
-            $table->text('description');
-            $table->foreignId('image_id')->constrained('images')->onDelete('cascade');
+            $table->string('path');
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('blogs');
+        Schema::dropIfExists('images');
     }
 };

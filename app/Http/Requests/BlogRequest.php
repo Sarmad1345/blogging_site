@@ -15,8 +15,10 @@ class BlogRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required',
-            'content' => 'required',
+            'email' => 'required|email',
+            'title' => 'required|string|max:255',
+            'description' => 'required|string|max:500',
+            'file' => 'image|max:2048',
         ];
     }
 }

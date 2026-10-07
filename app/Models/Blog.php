@@ -10,7 +10,14 @@ class Blog extends Model
     use HasFactory;
 
     protected $fillable = [
+        'email',
         'title',
-        'content',
+        'description',
+        'image_id',
     ];
+
+    public function image()
+    {
+        return $this->belongsTo(Image::class);
+    }
 }
