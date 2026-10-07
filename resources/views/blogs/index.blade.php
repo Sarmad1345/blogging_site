@@ -16,6 +16,10 @@
         </div>
     @endif
 
+    <form action="{{ route('blogs.search') }}" method="GET" style="margin-bottom: 1rem;">
+        <input type="text" name="search" id="searchInput" placeholder="Search blogs..." value="{{ request('search') }}">
+        <button type="submit" id="searchButton">Search</button>
+    </form>
 
     <p>
         <a href="{{ route('blogs.create') }}" class="btn btn-primary">+ Add New Blog</a>

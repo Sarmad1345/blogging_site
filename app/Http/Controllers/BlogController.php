@@ -63,4 +63,14 @@ class BlogController extends Controller
         $blog->delete();
         return redirect()->route('blogs.index')->with('success', 'Blog deleted successfully.');
     }
+    public function search()
+    {
+        $searchTerm = request('search');
+        $blogs = Blog::where('title', 'like', '%' . $searchTerm . '%')
+            ->orWhere('description', 'like', '%' . $searchTerm . '%')
+            ->latest()
+            ->paginate(5);
+
+        return view('blogs.index', compact('blogs'));
+    }
 }
