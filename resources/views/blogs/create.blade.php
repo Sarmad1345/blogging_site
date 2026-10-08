@@ -1,44 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Add New Blog</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 30px auto; max-width: 600px; line-height: 1.6; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; font-weight: bold; margin-bottom: 5px; }
-        input[type="text"], textarea { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
-        textarea { height: 150px; }
-        .btn { display: inline-block; padding: 8px 16px; text-decoration: none; border-radius: 4px; border: 1px solid #ccc; background: #f4f4f4; color: #333; cursor: pointer; }
-        .btn-primary { background: #28a745; color: white; border-color: #28a745; }
-        .error { color: #dc3545; font-size: 14px; margin-top: 5px; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Add Blog</title>
 </head>
+
 <body>
-    <h1>Add New Blog</h1>
+    <div class="container mt-4">
+        <h1>Add Blog</h1>
 
-    <p><a href="{{ route('blogs.index') }}">&larr; Back to All Blogs</a></p>
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-    <form action="{{ route('blogs.store') }}" method="POST">
-        @csrf
-
-        <div class="form-group">
-            <label for="title">Title:</label>
-            <input type="text" name="title" id="title" value="{{ old('title') }}" required>
-            @error('title')
-                <div class="error">{{ $message }}</div>
-            @enderror
-        </div>
-
-        <div class="form-group">
-            <label for="content">Content:</label>
-            <textarea name="content" id="content" required>{{ old('content') }}</textarea>
-            @error('content')
-                <div class="error">{{ $message }}</div>
-            @enderror
-        </div>
-
-        <button type="submit" class="btn btn-primary">Publish Blog</button>
-    </form>
+        <form action="{{ route('blogs.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="email" placeholder="name@example.com" name="email"
+                    value="{{ old('email') }}">
+            </div>
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title" placeholder="Blog title" name="title"
+                    value="{{ old('title') }}">
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" id="description" rows="3" name="description">{{ old('description') }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label for="file" class="form-label">Upload File</label>
+                <input type="file" class="form-control" id="file" name="file">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

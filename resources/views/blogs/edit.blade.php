@@ -1,45 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Edit Blog</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 30px auto; max-width: 600px; line-height: 1.6; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; font-weight: bold; margin-bottom: 5px; }
-        input[type="text"], textarea { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
-        textarea { height: 150px; }
-        .btn { display: inline-block; padding: 8px 16px; text-decoration: none; border-radius: 4px; border: 1px solid #ccc; background: #f4f4f4; color: #333; cursor: pointer; }
-        .btn-primary { background: #007bff; color: white; border-color: #007bff; }
-        .error { color: #dc3545; font-size: 14px; margin-top: 5px; }
-    </style>
 </head>
+
 <body>
-    <h1>Edit Blog</h1>
-
-    <p><a href="{{ route('blogs.index') }}">&larr; Back to All Blogs</a></p>
-
-    <form action="{{ route('blogs.update', $blog->id) }}" method="POST">
-        @csrf
-        @method('PUT')
-
-        <div class="form-group">
-            <label for="title">Title:</label>
-            <input type="text" name="title" id="title" value="{{ old('title', $blog->title) }}" required>
-            @error('title')
-                <div class="error">{{ $message }}</div>
-            @enderror
+    <div class="container">
+        <div class="">
+            <div class="col p-4 ">
+                <a href="{{ route('blogs.index') }} " style=" font-size: 20px ">← Back to All
+                    Blogs</a>
+                <br>
+                <form action="{{ route('blogs.update', $blog->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="mb-3 mt-4 form-group">
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="" value="{{ $blog->email }}">
+                    </div>
+                    <div class="mb-3 form-group">
+                        <label for="title">title</label>
+                        <input type="text" name="title" id="" value="{{ $blog->title }}">
+                    </div>
+                    <div class="mb-3 form-group">
+                        <label for="description">description</label>
+                        <input type="text" name="description" id="" value="{{ $blog->description }}">
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </div>
+                </form>
+            </div>
         </div>
-
-        <div class="form-group">
-            <label for="content">Content:</label>
-            <textarea name="content" id="content" required>{{ old('content', $blog->content) }}</textarea>
-            @error('content')
-                <div class="error">{{ $message }}</div>
-            @enderror
-        </div>
-
-        <button type="submit" class="btn btn-primary">Update Blog</button>
-    </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
