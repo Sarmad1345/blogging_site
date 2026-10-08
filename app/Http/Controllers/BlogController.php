@@ -38,8 +38,6 @@ class BlogController extends Controller
             'description' => $request->description,
             'image_id' => $imageData->id,
             'category_id' => $request->category_id,
-
-
         ]);
 
         return redirect()->route('blogs.index')->with('success', 'Blog created successfully.');
