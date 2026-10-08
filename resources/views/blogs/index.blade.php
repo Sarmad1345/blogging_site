@@ -34,6 +34,8 @@
             <div class="blog-item">
                 <h2><a href="{{ route('blogs.show', $blog->id) }}">{{ $blog->title }}</a></h2>
                 <p>{{ $blog->description }}</p>
+                <small>Category: {{ $blog->category?->name ?? 'Uncategorized' }}</small><br>
+
 
                 <small>Published on: {{ $blog->created_at ? $blog->created_at->format('M d, Y') : '' }}</small>
 

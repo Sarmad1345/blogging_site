@@ -50,6 +50,8 @@
     <div class="description">
         {{ $blog->description }}
     </div>
+    <small> | Category: {{ $blog->category?->name ?? 'Uncategorized' }}</small>
+
 
     <div class="actions">
         <a href="{{ route('blogs.edit', $blog->id) }}" class="btn">Edit</a>

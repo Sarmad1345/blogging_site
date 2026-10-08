@@ -4,19 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\BlogRequest;
 use App\Models\Blog;
+use App\Models\Category;
 use App\Models\Image;
 
 class BlogController extends Controller
 {
     public function index()
     {
-        $blogs = Blog::latest()->paginate(5);
+        // $blogs = Blog::latest('updated_at')->paginate(5);
+        $blogs = Blog::with('category')->latest('updated_at')->paginate(5);
+
         return view('blogs.index', compact('blogs'));
     }
 
     public function create()
     {
-        return view('blogs.create');
+        $categories = Category::orderBy('name')->get();
+        return view('blogs.create', compact('categories'));
     }
 
     public function store(BlogRequest $request)
@@ -33,6 +37,9 @@ class BlogController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'image_id' => $imageData->id,
+            'category_id' => $request->category_id,
+
+
         ]);
 
         return redirect()->route('blogs.index')->with('success', 'Blog created successfully.');
@@ -43,10 +50,10 @@ class BlogController extends Controller
         return view('blogs.show', compact('blog'));
     }
 
-
     public function edit(Blog $blog)
     {
-        return view('blogs.edit', compact('blog'));
+        $categories = Category::orderBy('name')->get();
+        return view('blogs.edit', compact('blog', 'categories'));
     }
     public function update(BlogRequest $blogRequest, Blog $blog)
     {
@@ -54,6 +61,8 @@ class BlogController extends Controller
             "email" => $blogRequest->email,
             "title" => $blogRequest->title,
             "description" => $blogRequest->description,
+            "category_id" => $blogRequest->category_id,
+
         ]);
         return redirect()->route("blogs.index")->with('success', 'Blog created successfully.');
     }
@@ -73,8 +82,6 @@ class BlogController extends Controller
 
         return view('blogs.index', compact('blogs'));
     }
-
-
 
     public function trash()
     {

@@ -18,6 +18,7 @@ class BlogRequest extends FormRequest
             'email' => 'required|email',
             'title' => 'required|string|max:255',
             'description' => 'required|string|max:500',
+            'category_id' => 'required|exists:categories,id',
             'file' => 'image|max:2048',
         ];
     }

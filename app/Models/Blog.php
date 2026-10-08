@@ -17,10 +17,19 @@ class Blog extends Model
         'title',
         'description',
         'image_id',
+        'category_id',
+
     ];
 
     public function image()
     {
         return $this->belongsTo(Image::class);
+    }
+
+
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 }
