@@ -14,3 +14,5 @@ Route::prefix('blogs')->name('blogs.')->controller(BlogController::class)->group
 });
 
 Route::resource('blogs', BlogController::class);
+
+Route::view("navbar", "navbar");
