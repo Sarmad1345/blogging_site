@@ -3,66 +3,58 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $blog->title }}</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 30px auto;
-            max-width: 800px;
-            line-height: 1.6;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 6px 12px;
-            text-decoration: none;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-            background: #f4f4f4;
-            color: #333;
-            cursor: pointer;
-        }
-
-        .btn-danger {
-            background: #dc3545;
-            color: white;
-            border-color: #dc3545;
-        }
-
-        .content {
-            margin: 20px 0;
-            font-size: 18px;
-            white-space: pre-line;
-        }
-
-        .actions {
-            margin-top: 20px;
-        }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
-<body>
-    <p><a href="{{ route('blogs.index') }}">&larr; Back to All Blogs</a></p>
+<body class="bg-light">
+    <div class="container py-5">
+        <div class="mb-4">
+            <a href="{{ route('blogs.index') }}" class="btn btn-outline-secondary">&larr; Back to All Blogs</a>
+        </div>
 
-    <h1>{{ $blog->title }}</h1>
-    <small>Published on: {{ $blog->created_at ? $blog->created_at->format('M d, Y') : '' }}</small>
+        <div class="card shadow-sm border-0">
+            <div class="p-4 p-md-5 card-body">
+                <img src="{{ asset('storage/' . $blog->image->path) }}" alt="Uploaded Image" height="200px"
+                    class="d-block mb-4 mx-auto">
 
-    <div class="description">
-        {{ $blog->description }}
-    </div>
-    <small> | Category: {{ $blog->category?->name ?? 'Uncategorized' }}</small>
+                <h1 class="mb-3">{{ $blog->title }}</h1>
 
+                <div class="mb-3 text-muted">
+                    Published on: {{ $blog->created_at ? $blog->created_at->format('M d, Y') : '' }}
+                    <span class="mx-2">|</span>
+                    Category: {{ $blog->category?->name ?? 'Uncategorized' }}
+                </div>
+                @if ($blog->tags->isNotEmpty())
+                    <p>
+                        Tags:
+                        @foreach ($blog->tags as $tag)
+                            <p class="badge text-bg-secondary text-decoration-none">#{{ $tag->name }}</p>
+                        @endforeach
+                    </p>
+                @endif
 
-    <div class="actions">
-        <a href="{{ route('blogs.edit', $blog->id) }}" class="btn">Edit</a>
+                <div class="mb-4 lead">
+                    {{ $blog->description }}
+                </div>
 
-        <form action="{{ route('blogs.destroy', $blog->id) }}" method="POST" style="display: inline-block;">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="btn btn-danger">Delete</button>
-        </form>
-    </div>
+                <div class="d-flex gap-2 mt-4">
+                    <a href="{{ route('blogs.edit', $blog->id) }}" class="btn btn-primary">Edit</a>
+
+                    <div class="actions">
+                        <a href="{{ route('blogs.edit', $blog->id) }}" class="btn">Edit</a>
+
+                        <form action="{{ route('blogs.destroy', $blog->id) }}" method="POST"
+                            style="display: inline-block;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 </body>
-
 
 </html>

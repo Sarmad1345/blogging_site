@@ -15,7 +15,7 @@
         }
 
         .nav-link:hover {
-            color: #007bff;
+            color: #0060c7;
         }
     </style>
 </head>

@@ -6,13 +6,13 @@ use App\Http\Requests\BlogRequest;
 use App\Models\Blog;
 use App\Models\Category;
 use App\Models\Image;
+use App\Models\Tag;
 
 class BlogController extends Controller
 {
     public function index()
     {
-        // $blogs = Blog::latest('updated_at')->paginate(5);
-        $blogs = Blog::with('category')->latest('updated_at')->paginate(5);
+        $blogs = Blog::with(['category', 'tags', 'image'])->latest('updated_at')->paginate(10);
 
         return view('blogs.index', compact('blogs'));
     }
@@ -20,25 +20,26 @@ class BlogController extends Controller
     public function create()
     {
         $categories = Category::orderBy('name')->get();
-        return view('blogs.create', compact('categories'));
+        $tags = Tag::orderBy('name')->get();
+        return view('blogs.create', compact('categories', 'tags'));
     }
 
     public function store(BlogRequest $request)
     {
         $path = $request->file('file')->store('images', 'public');
 
-
         $imageData = Image::create([
             "path" => $path,
         ]);
 
-        Blog::create([
+        $blog = Blog::create([
             "email" => $request->email,
             'title' => $request->title,
             'description' => $request->description,
             'image_id' => $imageData->id,
             'category_id' => $request->category_id,
         ]);
+        $blog->tags()->attach($request->tags);
 
         return redirect()->route('blogs.index')->with('success', 'Blog created successfully.');
     }
@@ -51,7 +52,8 @@ class BlogController extends Controller
     public function edit(Blog $blog)
     {
         $categories = Category::orderBy('name')->get();
-        return view('blogs.edit', compact('blog', 'categories'));
+        $tags = Tag::orderBy('name')->get();
+        return view('blogs.edit', compact('blog', 'categories', 'tags'));
     }
     public function update(BlogRequest $blogRequest, Blog $blog)
     {
@@ -62,7 +64,10 @@ class BlogController extends Controller
             "category_id" => $blogRequest->category_id,
 
         ]);
-        return redirect()->route("blogs.index")->with('success', 'Blog created successfully.');
+        $blog->tags()->sync($blogRequest->tags);
+
+
+        return redirect()->route("blogs.index")->with('success', 'Blog updated successfully.');
     }
     public function destroy(int $id)
     {
@@ -73,7 +78,8 @@ class BlogController extends Controller
     public function search()
     {
         $searchTerm = request('search');
-        $blogs = Blog::where('title', 'like', '%' . $searchTerm . '%')
+        $blogs = Blog::with(['category', 'tags'])
+            ->where('title', 'like', '%' . $searchTerm . '%')
             ->orWhere('description', 'like', '%' . $searchTerm . '%')
             ->latest()
             ->paginate(5);

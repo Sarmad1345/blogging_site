@@ -9,4 +9,4 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 
-Route::get("get-post", [PostController::class, "show"]);
+Route::get("post", [PostController::class, "show"]);

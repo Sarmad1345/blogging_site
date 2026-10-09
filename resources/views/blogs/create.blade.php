@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <div class="container mt-4">
+    <div class="container mt-4 mb-5">
         <h1>Add Blog</h1>
 
         @if ($errors->any())
@@ -47,6 +47,16 @@
                         <option value="{{ $category->id }}" @selected(old('category_id') == $category->id)>{{ $category->name }}</option>
                     @endforeach
                 </select>
+            </div>
+            <div class="mb-3">
+                <label class="d-block form-label">Tags</label>
+                @foreach ($tags as $tag)
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="tag-{{ $tag->id }}" name="tags[]"
+                            value="{{ $tag->id }}" @checked(in_array($tag->id, old('tags', [])))>
+                        <label class="form-check-label" for="tag-{{ $tag->id }}">{{ $tag->name }}</label>
+                    </div>
+                @endforeach
             </div>
 
             <div class="mb-3">
