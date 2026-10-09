@@ -38,6 +38,17 @@
                 <label for="description" class="form-label">Description</label>
                 <textarea class="form-control" id="description" rows="3" name="description">{{ old('description') }}</textarea>
             </div>
+
+            <div class="mb-3">
+                <label for="category_id" class="form-label">Category</label>
+                <select class="form-select" id="category_id" name="category_id">
+                    <option value="">select category</option>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}" @selected(old('category_id') == $category->id)>{{ $category->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
             <div class="mb-3">
                 <label for="file" class="form-label">Upload File</label>
                 <input type="file" class="form-control" id="file" name="file">

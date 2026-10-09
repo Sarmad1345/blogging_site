@@ -31,6 +31,17 @@
                         <label for="description">description</label>
                         <input type="text" name="description" id="" value="{{ $blog->description }}">
                     </div>
+                    <div class="mb-3 form-group">
+                        <label for="category_id">category</label>
+                        <select name="category_id" id="category_id">
+                            <option value="">-- Select category --</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}" @selected(old('category_id', $blog->category_id) == $category->id)>{{ $category->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
                     <div>
                         <button type="submit" class="btn btn-primary">Update</button>
                     </div>
