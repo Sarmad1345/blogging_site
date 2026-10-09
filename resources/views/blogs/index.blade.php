@@ -53,6 +53,11 @@
                         <div class="card h-100 shadow-sm">
 
                             <div class="card-body">
+                                <div>
+                                    <img src="{{ asset('storage/' . $blog->image->path) }}" alt="Uploaded Image"
+                                        height="200px" width="100%" class="d-block mb-3 accordion-item mx-auto">
+                                </div>
+
 
                                 <h2 class="card-title fs-4">
                                     <a href="{{ route('blogs.show', $blog->id) }}" class="text-decoration-none">
@@ -60,9 +65,18 @@
                                     </a>
                                 </h2>
 
-                                <p class="card-text">
+                                <p class="card-text"
+                                    style="max-height: 100px; overflow: hidden; text-overflow: ellipsis;">
                                     {{ $blog->description }}
                                 </p>
+                                @if ($blog->tags->isNotEmpty())
+                                    <div class="my-2">
+                                        @foreach ($blog->tags as $tag)
+                                            <p class="badge text-bg-secondary text-decoration-none">
+                                                #{{ $tag->name }}</p>
+                                        @endforeach
+                                    </div>
+                                @endif
 
                                 <small class="d-block">
                                     Category:

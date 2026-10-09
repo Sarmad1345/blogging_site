@@ -17,9 +17,11 @@ class BlogRequest extends FormRequest
         return [
             'email' => 'required|email',
             'title' => 'required|string|max:255',
-            'description' => 'required|string|max:500',
+            'description' => 'required|string|max:5000',
             'category_id' => 'required|exists:categories,id',
-            'file' => 'image|max:2048',
+            'file' => 'required|image|max:2048',
+            'tags' => 'nullable|array',
+            'tags.*' => 'integer|exists:tags,id',
         ];
     }
 }

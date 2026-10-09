@@ -42,15 +42,19 @@
                 <div class="d-flex gap-2 mt-4">
                     <a href="{{ route('blogs.edit', $blog->id) }}" class="btn btn-primary">Edit</a>
 
-                    <form action="{{ route('blogs.destroy', $blog->id) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
+                    <div class="actions">
+                        <a href="{{ route('blogs.edit', $blog->id) }}" class="btn">Edit</a>
+
+                        <form action="{{ route('blogs.destroy', $blog->id) }}" method="POST"
+                            style="display: inline-block;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 </body>
 
 </html>

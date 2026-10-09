@@ -32,6 +32,17 @@
                         <input type="text" name="description" id="" value="{{ $blog->description }}">
                     </div>
                     <div class="mb-3 form-group">
+                        <label>tags</label>
+                        @foreach ($tags as $tag)
+                            <label>
+                                <input type="checkbox" name="tags[]" value="{{ $tag->id }}"
+                                    @checked(in_array($tag->id, old('tags', $blog->tags->pluck('id')->all())))>
+                                {{ $tag->name }}
+                            </label>
+                        @endforeach
+                    </div>
+
+                    <div class="mb-3 form-group">
                         <label for="category_id">category</label>
                         <select name="category_id" id="category_id">
                             <option value="">-- Select category --</option>
