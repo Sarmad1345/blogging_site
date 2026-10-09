@@ -12,32 +12,17 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-
-
-        Category::create([
-            'name' => 'Personal & Daily Life'
-        ]);
-        Category::create([
-            'name' => 'Travel & Adventure'
-        ]);
-        Category::create([
-            'name' => 'Parenting & Family:'
-        ]);
-        Category::create([
-            'name' => 'Food & Recipes'
-        ]);
-        Category::create([
-            'name' => 'Health & Fitness'
-        ]);
-        Category::create([
-            'name' => 'Fashion & Beauty'
-        ]);
-
-        Category::create([
-            'name' => 'Entertainment & Culture'
-        ]);
-        Category::create([
-            'name' => 'Sports & Athletics'
-        ]);
+        Category::create(
+            ['name' => 'Technology & Gadgets'],
+            ['name' => 'Fashion & Beauty'],
+            ['name' => 'Health & Wellness'],
+            ['name' => 'Travel & Adventure'],
+            ['name' => 'Food & Recipes'],
+            ['name' => 'Lifestyle & Personal Development'],
+            ['name' => 'Business & Entrepreneurship'],
+            ['name' => 'Entertainment & Pop Culture'],
+            ['name' => 'Sports & Fitness'],
+            ['name' => 'Education & Learning']
+        );
     }
 }
