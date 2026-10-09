@@ -43,7 +43,6 @@
                     <a href="{{ route('blogs.edit', $blog->id) }}" class="btn btn-primary">Edit</a>
 
                     <div class="actions">
-                        <a href="{{ route('blogs.edit', $blog->id) }}" class="btn">Edit</a>
 
                         <form action="{{ route('blogs.destroy', $blog->id) }}" method="POST"
                             style="display: inline-block;">
