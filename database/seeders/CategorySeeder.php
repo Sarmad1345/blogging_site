@@ -12,7 +12,7 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        Category::create(
+        $category = [
             ['name' => 'Technology & Gadgets'],
             ['name' => 'Fashion & Beauty'],
             ['name' => 'Health & Wellness'],
@@ -23,6 +23,10 @@ class CategorySeeder extends Seeder
             ['name' => 'Entertainment & Pop Culture'],
             ['name' => 'Sports & Fitness'],
             ['name' => 'Education & Learning']
-        );
+        ];
+
+        foreach ($category as  $value) {
+            Category::create($value);
+        }
     }
 }
