@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
+use Override;
 
 class Blog extends Model
 {
@@ -20,6 +21,24 @@ class Blog extends Model
         'category_id',
 
     ];
+    public function setTitleAttribute($value)
+    {
+        $this->attributes['title'] = ucwords($value);
+    }
+    public function getTitleAttribute($value)
+    {
+        return ucwords($value);
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return date('d-M-Y', strtotime($value));
+    }
+
+    public function getDescriptionAttribute($key)
+    {
+        return ucwords($key);
+    }
 
     public function image()
     {

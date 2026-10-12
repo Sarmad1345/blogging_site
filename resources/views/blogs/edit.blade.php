@@ -10,55 +10,38 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="">
-            <div class="col p-4 ">
-                <a href="{{ route('blogs.index') }} " style=" font-size: 20px ">← Back to All
-                    Blogs</a>
-                <br>
-                <form action="{{ route('blogs.update', $blog->id) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <div class="mb-3 mt-4 form-group">
-                        <label for="email">Email</label>
-                        <input type="email" name="email" id="" value="{{ $blog->email }}">
-                    </div>
-                    <div class="mb-3 form-group">
-                        <label for="title">title</label>
-                        <input type="text" name="title" id="" value="{{ $blog->title }}">
-                    </div>
-                    <div class="mb-3 form-group">
-                        <label for="description">description</label>
-                        <input type="text" name="description" id="" value="{{ $blog->description }}">
-                    </div>
-                    <div class="mb-3 form-group">
-                        <label>tags</label>
-                        @foreach ($tags as $tag)
-                            <label>
-                                <input type="checkbox" name="tags[]" value="{{ $tag->id }}"
-                                    @checked(in_array($tag->id, old('tags', $blog->tags->pluck('id')->all())))>
-                                {{ $tag->name }}
-                            </label>
-                        @endforeach
-                    </div>
+    <div class="container mt-4 mb-5">
+        <a href="{{ route('blogs.index') }}" class="btn btn-outline-secondary mb-3">← Back to All Blogs</a>
+        <h1 class="mb-4">Edit Blog</h1>
 
-                    <div class="mb-3 form-group">
-                        <label for="category_id">category</label>
-                        <select name="category_id" id="category_id">
-                            <option value="">-- Select category --</option>
-                            @foreach ($categories as $category)
-                                <option value="{{ $category->id }}" @selected(old('category_id', $blog->category_id) == $category->id)>{{ $category->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div>
-                        <button type="submit" class="btn btn-primary">Update</button>
-                    </div>
-                </form>
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
             </div>
-        </div>
+        @endif
+
+        <form action="{{ route('blogs.update', $blog->id) }}" method="POST">
+            @csrf
+            @method('PUT')
+
+            <x-input type="email" name="email" label="Email address" :value="$blog->email" placeholder="name@example.com" />
+
+            <x-input name="title" label="Title" :value="$blog->title" placeholder="Blog title" />
+
+            <x-textarea name="description" label="Description" :value="$blog->description" placeholder="Blog description" />
+
+            <x-select name="category_id" label="Category" :options="$categories" :selected="$blog->category_id" placeholder="-- Select category --" />
+
+            <x-checkbox-group name="tags[]" label="Tags" :items="$tags" :selected="$blog->tags->pluck('id')->all()" />
+
+            <div>
+                <button type="submit" class="btn btn-primary">Update</button>
+            </div>
+        </form>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
