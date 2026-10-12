@@ -9,6 +9,7 @@
 </head>
 
 <body>
+    @include('navbar')
 
     <div class="container py-4">
 
@@ -31,10 +32,18 @@
             </div>
         </form>
 
+
         <div class="mb-4">
             <a href="{{ route('blogs.trash') }}" class="btn btn-secondary">
                 Trash
             </a>
+
+            <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                @csrf
+                <button type="submit" class="btn btn-danger">
+                    Logout
+                </button>
+            </form>
 
             <a href="{{ route('blogs.create') }}" class="btn btn-primary">
                 + Add New Blog
@@ -57,23 +66,21 @@
                                     <img src="{{ asset('storage/' . $blog->image->path) }}" alt="Uploaded Image"
                                         height="200px" width="100%" class="d-block mb-3 accordion-item mx-auto">
                                 </div>
-
-
                                 <h2 class="card-title fs-4">
                                     <a href="{{ route('blogs.show', $blog->id) }}" class="text-decoration-none">
-                                        {{ $blog->title }}
-                                    </a>
+                                        {{ $blog->getRawOriginal('title') }} </a>
                                 </h2>
 
                                 <p class="card-text"
                                     style="max-height: 100px; overflow: hidden; text-overflow: ellipsis;">
-                                    {{ $blog->description }}
+                                    {{ $blog->getRawOriginal('description') }}
                                 </p>
+
                                 @if ($blog->tags->isNotEmpty())
                                     <div class="my-2">
                                         @foreach ($blog->tags as $tag)
                                             <p class="badge text-bg-secondary text-decoration-none">
-                                                #{{ $tag->name }}</p>
+                                                {{ $tag->name }}</p>
                                         @endforeach
                                     </div>
                                 @endif
@@ -85,7 +92,7 @@
 
                                 <small class="text-muted">
                                     Published on:
-                                    {{ $blog->created_at?->format('M d, Y') }}
+                                    {{ $blog->created_at }}
                                 </small>
 
                             </div>

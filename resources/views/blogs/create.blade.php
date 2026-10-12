@@ -24,45 +24,18 @@
 
         <form action="{{ route('blogs.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
-            <div class="mb-3">
-                <label for="email" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="email" placeholder="name@example.com" name="email"
-                    value="{{ old('email') }}">
-            </div>
-            <div class="mb-3">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="title" placeholder="Blog title" name="title"
-                    value="{{ old('title') }}">
-            </div>
-            <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea class="form-control" id="description" rows="3" name="description">{{ old('description') }}</textarea>
-            </div>
 
-            <div class="mb-3">
-                <label for="category_id" class="form-label">Category</label>
-                <select class="form-select" id="category_id" name="category_id">
-                    <option value="">select category</option>
-                    @foreach ($categories as $category)
-                        <option value="{{ $category->id }}" @selected(old('category_id') == $category->id)>{{ $category->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="mb-3">
-                <label class="d-block form-label">Tags</label>
-                @foreach ($tags as $tag)
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="tag-{{ $tag->id }}" name="tags[]"
-                            value="{{ $tag->id }}" @checked(in_array($tag->id, old('tags', [])))>
-                        <label class="form-check-label" for="tag-{{ $tag->id }}">{{ $tag->name }}</label>
-                    </div>
-                @endforeach
-            </div>
+            <x-input type="email" name="email" label="Email address" placeholder="name@example.com" />
 
-            <div class="mb-3">
-                <label for="file" class="form-label">Upload File</label>
-                <input type="file" class="form-control" id="file" name="file">
-            </div>
+            <x-input name="title" label="Title" placeholder="Blog title" />
+
+            <x-textarea name="description" label="Description" placeholder="Blog description" />
+            <x-select name="category_id" label="Category" :options="$categories" placeholder="select category" />
+
+            <x-checkbox-group name="tags[]" label="Tags" :items="$tags" />
+
+            <x-input type="file" name="file" label="Upload File" />
+
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>

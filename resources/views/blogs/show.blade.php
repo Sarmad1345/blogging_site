@@ -22,7 +22,7 @@
                 <h1 class="mb-3">{{ $blog->title }}</h1>
 
                 <div class="mb-3 text-muted">
-                    Published on: {{ $blog->created_at ? $blog->created_at->format('M d, Y') : '' }}
+                    Published on: {{ $blog->created_at }}
                     <span class="mx-2">|</span>
                     Category: {{ $blog->category?->name ?? 'Uncategorized' }}
                 </div>
