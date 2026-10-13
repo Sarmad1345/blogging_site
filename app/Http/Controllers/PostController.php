@@ -8,7 +8,12 @@ class PostController extends Controller
 {
     public function show()
     {
-        $blogs =  Blog::with('category', 'image', 'tags')->latest()->get();
-        return ["data" => $blogs];
+        $blogs = Blog::with(['category', 'image', 'tags'])
+            ->latest()
+            ->get();
+
+        return response()->json([
+            'data' => $blogs,
+        ]);
     }
 }
