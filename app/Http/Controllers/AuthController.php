@@ -18,28 +18,18 @@ class AuthController extends Controller
     {
         $credentials = $request->validate([
             'email' => 'required|email',
-            'password' => 'required',
+            'password' => 'required|string',
         ]);
 
-        $user = User::where('email', $credentials['email'])->first();
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
 
-        if (!$user) {
-            return back()
-                ->with('fail', 'We do not recognize your email address')
-                ->onlyInput('email');
+            return redirect()->route('blogs.index');
         }
 
-        if (!Hash::check($credentials['password'], $user->password)) {
-            return back()
-                ->with('fail', 'Password does not match.')
-                ->onlyInput('email');
-        }
-
-        $request->session()->regenerate();
-
-        $request->session()->put('loginId', $user->id);
-
-        return redirect(route('blogs.index'));
+        return back()
+            ->with('fail', 'Invalid email or password.')
+            ->onlyInput('email');
     }
 
     public function register()
@@ -65,7 +55,7 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect('/');
+        return redirect()->route('blogs.index');
     }
     public function logout(Request $request)
     {
