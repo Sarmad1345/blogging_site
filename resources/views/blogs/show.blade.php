@@ -1,59 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $blog->title }}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
+@section('title', $blog->title)
 
-<body class="bg-light">
-    <div class="container py-5">
-        <div class="mb-4">
-            <a href="{{ route('blogs.index') }}" class="btn btn-outline-secondary">&larr; Back to All Blogs</a>
-        </div>
+@section('content')
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+            <div class="mb-4">
+                <a href="{{ route('blogs.index') }}" class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-arrow-left"></i> Back to All Blogs
+                </a>
+            </div>
 
-        <div class="card shadow-sm border-0">
-            <div class="p-4 p-md-5 card-body">
-                <img src="{{ asset('storage/' . $blog->image->path) }}" alt="Uploaded Image" height="200px"
-                    class="d-block mb-4 mx-auto">
+            <div class="card shadow-sm border-0">
+                <div class="p-4 p-md-5 card-body">
+                    @if ($blog->image?->path)
+                        <img src="{{ asset('storage/' . $blog->image->path) }}" alt="{{ $blog->title }}"
+                            style="max-height: 380px; width: 100%; object-fit: cover;" class="d-block mb-4 mx-auto rounded shadow-sm">
+                    @endif
 
-                <h1 class="mb-3">{{ $blog->title }}</h1>
+                    <h1 class="mb-3 fw-bold display-6">{{ $blog->title }}</h1>
 
-                <div class="mb-3 text-muted">
-                    Published on: {{ $blog->created_at }}
-                    <span class="mx-2">|</span>
-                    Category: {{ $blog->category?->name ?? 'Uncategorized' }}
-                </div>
-                @if ($blog->tags->isNotEmpty())
-                    <p>
-                        Tags:
-                        @foreach ($blog->tags as $tag)
-                            <p class="badge text-bg-secondary text-decoration-none">#{{ $tag->name }}</p>
-                        @endforeach
-                    </p>
-                @endif
+                    <div class="mb-3 text-muted small d-flex flex-wrap gap-3 align-items-center">
+                        <span><i class="bi bi-calendar3 me-1"></i> Published on: {{ $blog->created_at }}</span>
+                        <span>|</span>
+                        <span><i class="bi bi-folder2 me-1"></i> Category: {{ $blog->category?->name ?? 'Uncategorized' }}</span>
+                    </div>
 
-                <div class="mb-4 lead">
-                    {{ $blog->description }}
-                </div>
+                    @if ($blog->tags->isNotEmpty())
+                        <div class="mb-4">
+                            <span class="small text-muted me-1">Tags:</span>
+                            @foreach ($blog->tags as $tag)
+                                <span class="badge text-bg-secondary text-decoration-none me-1">#{{ $tag->name }}</span>
+                            @endforeach
+                        </div>
+                    @endif
 
-                <div class="d-flex gap-2 mt-4">
-                    <a href="{{ route('blogs.edit', $blog->id) }}" class="btn btn-primary">Edit</a>
+                    <hr class="my-4">
 
-                    <div class="actions">
+                    <div class="mb-5 lead fs-6 text-secondary" style="white-space: pre-line; line-height: 1.8;">
+                        {{ $blog->description }}
+                    </div>
+
+                    <div class="d-flex gap-2 pt-3 border-top">
+                        <a href="{{ route('blogs.edit', $blog->id) }}" class="btn btn-primary">
+                            <i class="bi bi-pencil-square me-1"></i> Edit
+                        </a>
 
                         <form action="{{ route('blogs.destroy', $blog->id) }}" method="POST"
-                            style="display: inline-block;">
+                            onsubmit="return confirm('Move this blog to trash?')">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Delete</button>
+                            <button type="submit" class="btn btn-outline-danger">
+                                <i class="bi bi-trash me-1"></i> Delete
+                            </button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-</body>
-
-</html>
+    </div>
+@endsection

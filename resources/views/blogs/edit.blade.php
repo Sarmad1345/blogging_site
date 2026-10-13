@@ -1,49 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    <title>Edit Blog</title>
-</head>
+@section('title', 'Edit Blog')
 
-<body>
-    <div class="container mt-4 mb-5">
-        <a href="{{ route('blogs.index') }}" class="btn btn-outline-secondary mb-3">← Back to All Blogs</a>
-        <h1 class="mb-4">Edit Blog</h1>
-
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul class="mb-0">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
+@section('content')
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <h1 class="h3 mb-0 fw-bold">Edit Blog</h1>
+                <a href="{{ route('blogs.index') }}" class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-arrow-left"></i> Back to All Blogs
+                </a>
             </div>
-        @endif
 
-        <form action="{{ route('blogs.update', $blog->id) }}" method="POST">
-            @csrf
-            @method('PUT')
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <form action="{{ route('blogs.update', $blog->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
 
-            <x-input type="email" name="email" label="Email address" :value="$blog->email" placeholder="name@example.com" />
+                        <x-input type="email" name="email" label="Email address" :value="$blog->email" placeholder="name@example.com" />
 
-            <x-input name="title" label="Title" :value="$blog->title" placeholder="Blog title" />
+                        <x-input name="title" label="Title" :value="$blog->title" placeholder="Blog title" />
 
-            <x-textarea name="description" label="Description" :value="$blog->description" placeholder="Blog description" />
+                        <x-textarea name="description" label="Description" :value="$blog->description" placeholder="Blog description" />
 
-            <x-select name="category_id" label="Category" :options="$categories" :selected="$blog->category_id" placeholder="-- Select category --" />
+                        <x-select name="category_id" label="Category" :options="$categories" :selected="$blog->category_id" placeholder="-- Select category --" />
 
-            <x-checkbox-group name="tags[]" label="Tags" :items="$tags" :selected="$blog->tags->pluck('id')->all()" />
+                        <x-checkbox-group name="tags[]" label="Tags" :items="$tags" :selected="$blog->tags->pluck('id')->all()" />
 
-            <div>
-                <button type="submit" class="btn btn-primary">Update</button>
+                        <div class="mt-4 d-flex gap-2">
+                            <button type="submit" class="btn btn-primary px-4">
+                                <i class="bi bi-save me-1"></i> Update
+                            </button>
+                            <a href="{{ route('blogs.index') }}" class="btn btn-light">Cancel</a>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </form>
+        </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-
-</html>
+@endsection
