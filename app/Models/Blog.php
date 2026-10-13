@@ -30,10 +30,10 @@ class Blog extends Model
         return ucwords($value);
     }
 
-    public function getCreatedAtAttribute($value)
-    {
-        return date('d-M-Y', strtotime($value));
-    }
+    // public function getCreatedAtAttribute($value)
+    // {
+    //     return date('d-M-Y', strtotime($value));
+    // }
 
     public function getDescriptionAttribute($key)
     {

@@ -1,45 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    <title>Add Blog</title>
-</head>
+@section('title', 'Add Blog')
 
-<body>
-    <div class="container mt-4 mb-5">
-        <h1>Add Blog</h1>
-
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul class="mb-0">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
+@section('content')
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <h1 class="h3 mb-0 fw-bold">Add New Blog</h1>
+                <a href="{{ route('blogs.index') }}" class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-arrow-left"></i> Back to Blogs
+                </a>
             </div>
-        @endif
 
-        <form action="{{ route('blogs.store') }}" method="POST" enctype="multipart/form-data">
-            @csrf
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <form action="{{ route('blogs.store') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
 
-            <x-input type="email" name="email" label="Email address" placeholder="name@example.com" />
+                        <x-input type="email" name="email" label="Email address" placeholder="name@example.com" />
 
-            <x-input name="title" label="Title" placeholder="Blog title" />
+                        <x-input name="title" label="Title" placeholder="Blog title" />
 
-            <x-textarea name="description" label="Description" placeholder="Blog description" />
-            <x-select name="category_id" label="Category" :options="$categories" placeholder="select category" />
+                        <x-textarea name="description" label="Description" placeholder="Blog description" />
 
-            <x-checkbox-group name="tags[]" label="Tags" :items="$tags" />
+                        <x-select name="category_id" label="Category" :options="$categories" placeholder="select category" />
 
-            <x-input type="file" name="file" label="Upload File" />
+                        <x-checkbox-group name="tags[]" label="Tags" :items="$tags" />
 
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+                        <x-input type="file" name="file" label="Upload File" />
+
+                        <div class="mt-4 d-flex gap-2">
+                            <button type="submit" class="btn btn-primary px-4">
+                                <i class="bi bi-check2-circle me-1"></i> Submit
+                            </button>
+                            <a href="{{ route('blogs.index') }}" class="btn btn-light">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-
-</html>
+@endsection
